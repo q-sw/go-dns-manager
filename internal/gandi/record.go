@@ -16,10 +16,9 @@ func CheckRecord(domain, record, recordType string, recordTTL int, values []stri
     apiToken := viper.GetString("apiToken")
 
     for _, r := range GetRecords(domain, apiURL, apiToken) {
-        if r.Name == record && r.Type == recordType && slices.Equal(r.Values, values) {
+        if r.Name == record && r.Type == recordType && r.TTL == recordTTL && slices.Equal(r.Values, values) {
             return "na", r.Href, [][]string{}
-        } else if r.Name == record && r.Type == recordType && r.TTL == recordTTL && !slices.Equal(r.Values, values) {
-
+        } else if r.Name == record && r.Type == recordType && r.TTL == recordTTL && (r.TTL != recordTTL || !slices.Equal(r.Values, values)) {
             return "update", r.Href, [][]string{r.Values, values}
         }
     }
