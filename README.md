@@ -60,6 +60,21 @@ apiToken: " " # Gandi API TOKEN
 apiURL: "https://api.gandi.net/v5" # Gandi API URL 
 ```
 
+### DNS file
+
+o manage your records for a specific domain name, you must create a file similar to this:
+
+```yaml
+mydomain.com:
+  - name: string
+    type: string
+    ttl: int
+    values:
+      - string
+      - string
+
+```
+
 ## Install the command line
 
 ```shell
