@@ -9,7 +9,7 @@ import (
     "github.com/spf13/viper"
 )
 
-func CheckRecord(domain, record, recordType string, values []string) (string, string, [][]string) {
+func CheckRecord(domain, record, recordType string, recordTTL int, values []string) (string, string, [][]string) {
 
     apiURL := viper.GetString("apiURL")
     apiToken := viper.GetString("apiToken")
@@ -17,7 +17,7 @@ func CheckRecord(domain, record, recordType string, values []string) (string, st
     for _, r := range GetRecords(domain, apiURL, apiToken) {
         if r.Name == record && r.Type == recordType && slices.Equal(r.Values, values) {
             return "na", r.Href, [][]string{}
-        } else if r.Name == record && r.Type == recordType && !slices.Equal(r.Values, values) {
+        } else if r.Name == record && r.Type == recordType && r.TTL == recordTTL && !slices.Equal(r.Values, values) {
             return "update", r.Href, [][]string{r.Values, values}
         }
     }
@@ -36,10 +36,11 @@ func GetRecords(domain, apiURL, apiToken string) []Record {
     return records
 }
 
-func CreateRecord(domain, recordName, recordType string, recordValues []string) []byte {
+func CreateRecord(domain, recordName, recordType, recordTTL string, recordValues []string) []byte {
     type recordValue struct {
         Name   string   `json:"rrset_name"`
         Type   string   `json:"rrset_type"`
+        TTL    string   `json:"rrset_ttl"`
         Values []string `json:"rrset_values"`
     }
 
@@ -49,7 +50,7 @@ func CreateRecord(domain, recordName, recordType string, recordValues []string) 
     h = append(h, utils.Header{Property: "authorization", Value: fmt.Sprintf("Bearer %v", apiToken)})
     h = append(h, utils.Header{Property: "content-type", Value: "application/json"})
 
-    bodyContent, err := json.Marshal(recordValue{Values: recordValues, Name: recordName, Type: recordType})
+    bodyContent, err := json.Marshal(recordValue{Values: recordValues, Name: recordName,TTL: recordTTL, Type: recordType})
     if err != nil {
         fmt.Printf("error during marshal record value")
     }

@@ -1,14 +1,14 @@
 package manager
 
 import (
-    "fmt"
-    "os"
+	"fmt"
+	"os"
 
-    "github.com/q-sw/go-dns-manager/internal/gandi"
+	"github.com/q-sw/go-dns-manager/internal/gandi"
 
-    "github.com/fatih/color"
-    "github.com/spf13/viper"
-    "gopkg.in/yaml.v3"
+	"github.com/fatih/color"
+	"github.com/spf13/viper"
+	"gopkg.in/yaml.v3"
 )
 
 func ApplyRecord(file string, check bool) {
@@ -23,12 +23,13 @@ func ApplyRecord(file string, check bool) {
         if gandi.CheckDomainName(k, apiToken) {
             fmt.Println("")
             for i := 0; i < len(v); i++ {
-                status, href, changes := gandi.CheckRecord(k, v[i].Name, v[i].Type, v[i].Values)
+                status, href, changes := gandi.CheckRecord(k, v[i].Name, v[i].Type, v[i].TTL, v[i].Values)
                 if status == "na" {
                     color.Cyan(fmt.Sprintf("%v.%v No update required", v[i].Name, k))
                 } else if status == "update" {
                     if !check {
-                        gandi.UpdateRecord(href, "300", v[i].Values)
+                        ttl := string(v[i].TTL)
+                        gandi.UpdateRecord(href, ttl, v[i].Values)
                         fmt.Println("update")
                     }
                     fmt.Println(href)
@@ -36,7 +37,8 @@ func ApplyRecord(file string, check bool) {
                     color.Yellow(fmt.Sprintf("%v\n", changes))
                 } else {
                     if !check {
-                        gandi.CreateRecord(k, v[i].Name, v[i].Type, v[i].Values)
+                        ttl := string(v[i].TTL)
+                        gandi.CreateRecord(k, v[i].Name, v[i].Type, ttl, v[i].Values)
                         fmt.Println("create")
                     }
                     color.Green(fmt.Sprintf("%v.%v Need to be create\n", v[i].Name, k))
