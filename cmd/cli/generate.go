@@ -1,15 +1,15 @@
 package cli
 
 import (
-    "github.com/spf13/cobra"
+	"github.com/spf13/cobra"
 )
 
 // genCmd represents the generate command
 var genCmd = &cobra.Command{
-    Use:   "generate",
-    Short: "Generate blank file",
+	Use:   "generate",
+	Short: "Generate blank file",
 }
 
 func init() {
-    rootCmd.AddCommand(genCmd)
+	rootCmd.AddCommand(genCmd)
 }

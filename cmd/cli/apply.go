@@ -1,15 +1,15 @@
 package cli
 
 import (
-    "github.com/spf13/cobra"
+	"github.com/spf13/cobra"
 )
 
 // applyCmd represents the apply command
 var applyCmd = &cobra.Command{
-    Use:   "apply",
-    Short: "Apply configurations",
+	Use:   "apply",
+	Short: "Apply configurations",
 }
 
 func init() {
-    rootCmd.AddCommand(applyCmd)
+	rootCmd.AddCommand(applyCmd)
 }
