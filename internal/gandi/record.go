@@ -37,12 +37,11 @@ func GetRecords(domain, apiURL, apiToken string) []Record {
     return records
 }
 
-
-func CreateRecord(domain, recordName, recordType, recordTTL string, recordValues []string) []byte {
+func CreateRecord(domain, recordName, recordType string, recordTTL int, recordValues []string) []byte {
     type recordValue struct {
         Name   string   `json:"rrset_name"`
         Type   string   `json:"rrset_type"`
-        TTL    string   `json:"rrset_ttl"`
+        TTL    int      `json:"rrset_ttl"`
         Values []string `json:"rrset_values"`
     }
 
@@ -63,11 +62,11 @@ func CreateRecord(domain, recordName, recordType, recordTTL string, recordValues
 
 }
 
-func UpdateRecord(recordHref, recordTTL string, recordValues []string) []byte {
+func UpdateRecord(recordHref string, recordTTL int, recordValues []string) []byte {
 
     type recordValue struct {
         Values []string `json:"rrset_values"`
-        TTL    string   `json:"rrset_ttl"`
+        TTL    int   `json:"rrset_ttl"`
     }
 
     apiToken := viper.GetString("apiToken")

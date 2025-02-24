@@ -28,8 +28,7 @@ func ApplyRecord(file string, check bool) {
                     color.Cyan(fmt.Sprintf("%v.%v No update required", v[i].Name, k))
                 } else if status == "update" {
                     if !check {
-                        ttl := string(v[i].TTL)
-                        gandi.UpdateRecord(href, ttl, v[i].Values)
+                        gandi.UpdateRecord(href, v[i].TTL, v[i].Values)
                         fmt.Println("update")
                     }
                     fmt.Println(href)
@@ -37,9 +36,7 @@ func ApplyRecord(file string, check bool) {
                     color.Yellow(fmt.Sprintf("%v\n", changes))
                 } else {
                     if !check {
-                        ttl := string(v[i].TTL)
-                        gandi.CreateRecord(k, v[i].Name, v[i].Type, ttl, v[i].Values)
-
+                        gandi.CreateRecord(k, v[i].Name, v[i].Type, v[i].TTL, v[i].Values)
                         fmt.Println("create")
                     }
                     color.Green(fmt.Sprintf("%v.%v Need to be create\n", v[i].Name, k))
