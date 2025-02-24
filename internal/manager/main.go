@@ -39,6 +39,7 @@ func ApplyRecord(file string, check bool) {
                     if !check {
                         ttl := string(v[i].TTL)
                         gandi.CreateRecord(k, v[i].Name, v[i].Type, ttl, v[i].Values)
+
                         fmt.Println("create")
                     }
                     color.Green(fmt.Sprintf("%v.%v Need to be create\n", v[i].Name, k))

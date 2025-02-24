@@ -43,7 +43,9 @@ Available Commands:
                 -h, --help          help for records
                 -n, --name string   domain name ex: test.com
 ```
+
 > NOTE: The apply command is currently designed to be non-destructive.
+
 
 ### Configuration file
 
@@ -59,6 +61,7 @@ touch ${HOME}/.config/dns-manager/config.yaml
 apiToken: " " # Gandi API TOKEN
 apiURL: "https://api.gandi.net/v5" # Gandi API URL 
 ```
+
 
 ### DNS file
 

@@ -11,6 +11,7 @@ import (
 
 func CheckRecord(domain, record, recordType string, recordTTL int, values []string) (string, string, [][]string) {
 
+
     apiURL := viper.GetString("apiURL")
     apiToken := viper.GetString("apiToken")
 
@@ -18,6 +19,7 @@ func CheckRecord(domain, record, recordType string, recordTTL int, values []stri
         if r.Name == record && r.Type == recordType && slices.Equal(r.Values, values) {
             return "na", r.Href, [][]string{}
         } else if r.Name == record && r.Type == recordType && r.TTL == recordTTL && !slices.Equal(r.Values, values) {
+
             return "update", r.Href, [][]string{r.Values, values}
         }
     }
@@ -35,6 +37,7 @@ func GetRecords(domain, apiURL, apiToken string) []Record {
     json.Unmarshal(b, &records)
     return records
 }
+
 
 func CreateRecord(domain, recordName, recordType, recordTTL string, recordValues []string) []byte {
     type recordValue struct {
