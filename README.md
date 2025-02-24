@@ -43,6 +43,7 @@ Available Commands:
                 -h, --help          help for records
                 -n, --name string   domain name ex: test.com
 ```
+> NOTE: The apply command is currently designed to be non-destructive.
 
 ### Configuration file
 
